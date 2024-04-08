@@ -7,7 +7,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { handleErrors } from '@/utils/handleErrors';
 import { resetPassword } from '@/services/auth.service';
-import AuthLayout from '@/components/Auth/AuthLayout';
+
 import { AUTH_ROUTES } from '@/constants/routes';
 
 const ResetPassword = () => {
@@ -76,33 +76,31 @@ const ResetPassword = () => {
   );
   return (
     <>
-      <AuthLayout>
-        {reset ? (
-          <SuccessReset />
-        ) : (
-          <form onSubmit={form.onSubmit((values) => editPassword(values))}>
-            <Text my={10} fw={700} fz={{ xs: 20, md: 30 }}>
-              Reset your password
-            </Text>
+      {reset ? (
+        <SuccessReset />
+      ) : (
+        <form onSubmit={form.onSubmit((values) => editPassword(values))}>
+          <Text my={10} fw={700} fz={{ xs: 20, md: 30 }}>
+            Reset your password
+          </Text>
 
-            <PasswordInput
-              placeholder="New Password"
-              my={20}
-              size="md"
-              {...form.getInputProps('newPassword')}
-            />
-            <PasswordInput
-              placeholder="Confirm New Password"
-              size="md"
-              {...form.getInputProps('confirmNewPassword')}
-            />
+          <PasswordInput
+            placeholder="New Password"
+            my={20}
+            size="md"
+            {...form.getInputProps('newPassword')}
+          />
+          <PasswordInput
+            placeholder="Confirm New Password"
+            size="md"
+            {...form.getInputProps('confirmNewPassword')}
+          />
 
-            <Button fullWidth my={20} size="md" type="submit" loading={isPending}>
-              Reset
-            </Button>
-          </form>
-        )}
-      </AuthLayout>
+          <Button fullWidth my={20} size="md" type="submit" loading={isPending}>
+            Reset
+          </Button>
+        </form>
+      )}
     </>
   );
 };

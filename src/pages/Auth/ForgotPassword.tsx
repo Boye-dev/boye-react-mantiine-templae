@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { useDisclosure } from '@mantine/hooks';
 import { forgotPassword } from '@/services/auth.service';
-import AuthLayout from '@/components/Auth/AuthLayout';
+
 import { handleErrors } from '@/utils/handleErrors';
 import { AUTH_ROUTES } from '@/constants/routes';
 
@@ -59,43 +59,41 @@ const ForgotPassword = () => {
   );
   return (
     <>
-      <AuthLayout>
-        {reset ? (
-          <SuccessSignup />
-        ) : (
-          <>
-            <Text my={10} fw={700} fz={{ xs: 20, md: 30 }}>
-              Forgot password
-            </Text>
-            <Text>Input the email associated with your account</Text>
-            <form onSubmit={form.onSubmit((values) => mutate(values))}>
-              <TextInput
-                placeholder="Email address"
-                my={20}
-                size="md"
-                {...form.getInputProps('email')}
-              />
+      {reset ? (
+        <SuccessSignup />
+      ) : (
+        <>
+          <Text my={10} fw={700} fz={{ xs: 20, md: 30 }}>
+            Forgot password
+          </Text>
+          <Text>Input the email associated with your account</Text>
+          <form onSubmit={form.onSubmit((values) => mutate(values))}>
+            <TextInput
+              placeholder="Email address"
+              my={20}
+              size="md"
+              {...form.getInputProps('email')}
+            />
 
-              <Button fullWidth my={20} size="md" type="submit" loading={isPending}>
-                Continue
-              </Button>
-            </form>
+            <Button fullWidth my={20} size="md" type="submit" loading={isPending}>
+              Continue
+            </Button>
+          </form>
 
-            <Divider label="Or" labelPosition="center" size="sm" />
+          <Divider label="Or" labelPosition="center" size="sm" />
 
-            <Flex
-              justify="center"
-              align="center"
-              my={50}
-              onClick={() => navigate(AUTH_ROUTES.SIGN_UP_ARTISAN)}
-              style={{ cursor: 'pointer' }}
-            >
-              <Text ta="center">Don&apos;t have a MVP account yet? Sign up</Text>
-              <IconChevronRight />
-            </Flex>
-          </>
-        )}
-      </AuthLayout>
+          <Flex
+            justify="center"
+            align="center"
+            my={50}
+            onClick={() => navigate(AUTH_ROUTES.SIGN_UP_ARTISAN)}
+            style={{ cursor: 'pointer' }}
+          >
+            <Text ta="center">Don&apos;t have a MVP account yet? Sign up</Text>
+            <IconChevronRight />
+          </Flex>
+        </>
+      )}
     </>
   );
 };
