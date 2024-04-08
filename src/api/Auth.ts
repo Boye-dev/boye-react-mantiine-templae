@@ -2,13 +2,13 @@ import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 export interface IUserDecoded extends JwtPayload {
   email: string;
+  role: string;
+  id: string;
+  firstName: string;
+  lastName: string;
   exp: number;
-  fullname: string;
   iat: number;
   jti: string;
-  phone: string;
-  role: string;
-  user_id: string;
 }
 
 function setToken(token: string) {
@@ -35,11 +35,20 @@ export function getDecodedJwt(tkn = ''): IUserDecoded {
     return {} as IUserDecoded;
   }
 }
-
+export function getDecodedRefreshJwt(tkn = ''): IUserDecoded {
+  try {
+    const token = getRefreshToken();
+    const t = token || tkn;
+    return jwtDecode(t);
+  } catch (error) {
+    return {} as IUserDecoded;
+  }
+}
 function isAuthenticated() {
   try {
     const decodedToken = getDecodedJwt();
-    if (decodedToken && decodedToken.user_id) {
+
+    if (decodedToken && decodedToken.id) {
       const { exp } = decodedToken;
 
       if (exp) {
@@ -68,6 +77,7 @@ const Auth = {
   setRefreshToken,
   setToken,
   removeToken,
+  getDecodedRefreshJwt,
 };
 
 export default Auth;

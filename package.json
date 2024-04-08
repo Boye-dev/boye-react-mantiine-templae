@@ -17,12 +17,13 @@
     "test": "pnpm run typecheck && pnpm run prettier && pnpm run lint && pnpm run vitest && pnpm run build",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@mantine/carousel": "^7.4.0",
     "@mantine/charts": "^7.4.0",
     "@mantine/code-highlight": "^7.4.0",
+    "@mantine/colors-generator": "^7.7.1",
     "@mantine/core": "7.4.0",
     "@mantine/dates": "^7.4.0",
     "@mantine/dropzone": "^7.4.0",
@@ -35,6 +36,7 @@
     "@mantine/tiptap": "^7.4.0",
     "@tabler/icons": "^2.45.0",
     "@tabler/icons-react": "^2.45.0",
+    "@tanstack/react-query": "^5.28.9",
     "@tiptap/core": "^2.1.14",
     "@tiptap/extension-link": "^2.1.14",
     "@tiptap/pm": "^2.1.14",
@@ -47,7 +49,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.0",
-    "recharts": "2"
+    "recharts": "2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.4",

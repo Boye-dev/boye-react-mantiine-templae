@@ -10,26 +10,33 @@ const Api = axios.create({
 Api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const updatedConfig = { ...config };
-    if (Auth.getToken()) {
-      updatedConfig.headers.Authorization = `Bearer ${Auth.getToken()}`;
+    if (!config.headers.noBearerToken) {
+      if (Auth.getToken()) {
+        updatedConfig.headers.Authorization = `Bearer ${Auth.getToken()}`;
+      }
     }
+
+    delete updatedConfig.headers.noBearerToken;
     return updatedConfig;
   },
   (error: any) => Promise.reject(error)
 );
 
 Api.interceptors.request.use(async (req: InternalAxiosRequestConfig) => {
-  const decodedUser = Auth.getDecodedJwt();
-  const isExpired = daysjs.unix(decodedUser.exp).diff(daysjs()) < 1;
-
-  if (!isExpired) return req;
-  const response = await axios.post(`${templateBaseUrl}/api/auth/refresh`, {
-    refresh: Auth.getRefreshToken(),
-  });
-  Auth.setToken(response.data);
   const updatedConfig = { ...req };
-  if (Auth.getToken()) {
-    updatedConfig.headers.Authorization = `Bearer ${Auth.getToken()}`;
+
+  if (!req.headers.noBearerToken) {
+    const decodedUser = Auth.getDecodedJwt();
+    const isExpired = daysjs.unix(decodedUser.exp).diff(daysjs()) < 1;
+
+    if (!isExpired) return req;
+    const response = await axios.post(`${templateBaseUrl}/refresh`, {
+      refresh: Auth.getRefreshToken(),
+    });
+    Auth.setToken(response.data);
+    if (Auth.getToken()) {
+      updatedConfig.headers.Authorization = `Bearer ${Auth.getToken()}`;
+    }
   }
   return updatedConfig;
 });
